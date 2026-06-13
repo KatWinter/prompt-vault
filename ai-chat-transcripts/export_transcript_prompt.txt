@@ -1,0 +1,1 @@
+Export this chat transcript to a file in ai-chat-transcripts. Ensure the start includes the model used here (GPT-5.5-medium). The file should be start with the timestamp of the first message in iso 8601 format followed by an id for this transcript (YYYY-MM-DD HH:mm - {TRANSCRIPT_ID})
