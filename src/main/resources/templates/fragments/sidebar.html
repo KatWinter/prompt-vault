@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <body>
 
 <div th:fragment="sidebar" class="sidebar">
 
-    <sec:authorize access="hasRole('ADMIN')">
+    <div class="sidebar-section"
+         sec:authorize="hasRole('ADMIN')">
 
         <div class="sidebar-section">
 
@@ -28,8 +29,7 @@
             </a>
 
         </div>
-
-    </sec:authorize>
+    </div>
 
     <div class="sidebar-section">
 
