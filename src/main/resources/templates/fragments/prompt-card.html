@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="promptCard(prompt)"
+     class="prompt-card">
+
+    <h3 th:text="${prompt.title}">Title</h3>
+
+    <p th:text="${prompt.category != null ? prompt.category.name : 'No Category'}">
+        Category
+    </p>
+
+    <p th:text="${prompt.promptText}">
+        Prompt Text
+    </p>
+
+    <form th:action="@{/prompts/send/{id}(id=${prompt.id})}"
+          method="post">
+
+        <button type="submit">
+            Send Prompt
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

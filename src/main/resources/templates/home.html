@@ -1,11 +1,40 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
-</head>
-<body>
-<h1>Welcome!</h1>
 
-<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
+    <title>Prompt Vault</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}" />
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1>Welcome to Prompt Vault</h1>
+
+        <p>
+            Store, organize, and manage your AI prompts in one place.
+        </p>
+
+        <br><br>
+
+        <p>
+            Use the navigation menu on the left to create prompts,
+            view your prompt library, or review prompt history.
+        </p>
+
+    </div>
+
+</div>
+
 </body>
 </html>

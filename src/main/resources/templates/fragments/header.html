@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="header" class="header">
+
+    <div class="header-title">
+        Prompt Vault
+    </div>
+
+    <div class="header-right">
+
+        <span th:text="${#authentication.principal.displayName}">
+            User Name
+        </span>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-btn">
+                Logout
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div th:fragment="sidebar" class="sidebar">
+
+    <sec:authorize access="hasRole('ADMIN')">
+
+        <div class="sidebar-section">
+
+            <h3>Administration</h3>
+
+            <a th:href="@{/admin/users}">
+                Manage Users
+            </a>
+
+            <a th:href="@{/admin/categories}">
+                Manage Prompt Categories
+            </a>
+
+            <a th:href="@{/admin/keywords}">
+                Manage Policy Keywords
+            </a>
+
+            <a th:href="@{/admin/flagged}">
+                View Flagged Prompts
+            </a>
+
+        </div>
+
+    </sec:authorize>
+
+    <div class="sidebar-section">
+
+        <h3>Prompts</h3>
+
+        <a th:href="@{/prompts/create}">
+            Create Prompt
+        </a>
+
+        <a th:href="@{/prompts}">
+            View Prompts
+        </a>
+
+        <a th:href="@{/prompts/history}">
+            View Prompt History
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

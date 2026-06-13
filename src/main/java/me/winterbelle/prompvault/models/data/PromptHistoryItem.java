@@ -2,6 +2,9 @@ package me.winterbelle.prompvault.models.data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -20,6 +23,9 @@ public class PromptHistoryItem {
 
     @NotBlank
     private String responseText;
+
+    @NotNull
+    private LocalDateTime requestTime;
 
     public Long getId() {
         return id;
@@ -51,5 +57,13 @@ public class PromptHistoryItem {
 
     public void setResponseText(String responseText) {
         this.responseText = responseText;
+    }
+
+    public LocalDateTime getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(LocalDateTime requestTime) {
+        this.requestTime = requestTime;
     }
 }

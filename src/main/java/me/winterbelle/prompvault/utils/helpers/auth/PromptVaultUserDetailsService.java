@@ -26,13 +26,7 @@ public class PromptVaultUserDetailsService implements UserDetailsService {
         final Optional<PromptVaultUser> maybeUser = promptVaultUserService.findUser(username);
         if (maybeUser.isPresent()) {
             final PromptVaultUser user = maybeUser.get();
-            return new UserDetailsObject(
-                    user.getId(),
-                    user.getUsername(),
-                    user.getPasswordHash(),
-                    user.getStatus(),
-                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase()))
-            );
+            return new UserDetailsObject(user.getId(), user.getUsername(), user.getPasswordHash(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getStatus(), List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name().toUpperCase())));
         }
         throw UsernameNotFoundException.fromUsername(username);
     }

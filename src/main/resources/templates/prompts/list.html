@@ -1,0 +1,10 @@
+<div class="prompt-grid">
+
+    <div th:each="prompt : ${prompts}">
+
+        <div th:replace="~{fragments/prompt-card :: promptCard(${prompt})}">
+        </div>
+
+    </div>
+
+</div>
