@@ -365,3 +365,140 @@ body {
     padding-left: 24px;
     padding-right: 24px;
 }
+
+/* =========================
+   Reusable Cards
+   ========================= */
+
+.card {
+    background: var(--card-background);
+
+    padding: 24px;
+
+    border: 1px solid var(--border-colour);
+    border-radius: var(--border-radius);
+
+    box-shadow: var(--card-shadow);
+
+    margin-bottom: 25px;
+}
+
+/* =========================
+   Secondary Button
+   ========================= */
+
+.secondary-btn {
+    display: inline-block;
+
+    padding: 12px;
+
+    background: white;
+    color: var(--primary);
+
+    border: 1px solid var(--primary);
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.secondary-btn:hover {
+    background: var(--primary-light);
+}
+
+/* =========================
+   Danger Button
+   ========================= */
+
+.danger-btn {
+    background: #dc2626;
+    color: white;
+
+    border: none;
+    border-radius: 6px;
+
+    padding: 8px 14px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.danger-btn:hover {
+    background: #b91c1c;
+}
+
+/* =========================
+   Category Management
+   ========================= */
+
+.category-list {
+    margin-top: 25px;
+}
+
+.category-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 20px;
+    margin-bottom: 12px;
+
+    background: white;
+
+    border: 1px solid var(--border-colour);
+    border-radius: var(--border-radius);
+
+    box-shadow: var(--card-shadow);
+}
+
+.category-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.category-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-actions form {
+    margin: 0;
+}
+
+.category-form {
+    display: flex;
+    align-items: end;
+    gap: 15px;
+}
+
+.category-form .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.category-form .primary-btn {
+    width: auto;
+    white-space: nowrap;
+}
+
+.form-actions {
+    display: flex;
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.form-actions .primary-btn,
+.form-actions .secondary-btn {
+    flex: 1;
+
+    width: 100%;
+
+    text-align: center;
+}
