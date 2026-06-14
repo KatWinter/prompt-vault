@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Flagged Prompts</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}"/>
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1>Flagged Prompts</h1>
+
+        <div class="card"
+             th:if="${#lists.isEmpty(flaggedPrompts)}">
+
+            <p>No flagged prompts found.</p>
+
+        </div>
+
+        <div class="admin-list"
+             th:unless="${#lists.isEmpty(flaggedPrompts)}">
+
+            <div class="card"
+                 th:each="flaggedPrompt : ${flaggedPrompts}">
+
+                <h2 th:text="${flaggedPrompt.promptTitle}">
+                    Prompt Title
+                </h2>
+
+                <div class="admin-row">
+
+                    <div>
+                        <strong>Owner:</strong>
+                        <span th:text="${flaggedPrompt.ownerUsername}">
+                            Username
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="admin-row">
+
+                    <div>
+                        <strong>Category:</strong>
+                        <span th:text="${flaggedPrompt.categoryName}">
+                            Category
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="admin-row">
+
+                    <div>
+                        <strong>Flagged Keywords:</strong>
+                        <span th:text="${flaggedPrompt.keywords}">
+                            keyword1, keyword2
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="admin-row">
+
+                    <div>
+                        <strong>Date Submitted:</strong>
+                        <span th:text="${#temporals.format(flaggedPrompt.createdDate, 'dd MMM yyyy')}">
+                            14 Jun 2026
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
