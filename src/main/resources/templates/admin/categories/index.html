@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Manage Prompt Categories</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}" />
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1>Manage Prompt Categories</h1>
+
+        <form th:action="@{/admin/categories}"
+              method="post"
+              th:object="${newCategory}">
+
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
+
+            <label for="name">Category Name</label>
+
+            <input id="name"
+                   type="text"
+                   th:field="*{name}"
+                   placeholder="Enter category name" />
+
+            <div th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}">
+            </div>
+
+            <button type="submit">Add Category</button>
+
+        </form>
+
+        <hr>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.name}"></td>
+
+                <td>
+                    <a th:href="@{/admin/categories/{id}/edit(id=${category.id})}">
+                        Edit
+                    </a>
+
+                    <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}"
+                          method="post"
+                          style="display:inline;">
+
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}" />
+
+                        <button type="submit">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
