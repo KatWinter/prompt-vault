@@ -432,14 +432,14 @@ body {
 }
 
 /* =========================
-   Category Management
+   Admin Management
    ========================= */
 
-.category-list {
+.admin-list {
     margin-top: 25px;
 }
 
-.category-row {
+.admin-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -455,37 +455,45 @@ body {
     box-shadow: var(--card-shadow);
 }
 
-.category-name {
+.admin-name {
     font-size: 1rem;
     font-weight: 600;
     color: #333;
 }
 
-.category-actions {
+.admin-actions {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.category-actions form {
+.admin-actions form {
     margin: 0;
 }
 
-.category-form {
+.admin-form {
     display: flex;
     align-items: end;
     gap: 15px;
 }
 
-.category-form .form-group {
+.admin-form .form-group {
     flex: 1;
     margin-bottom: 0;
 }
 
-.category-form .primary-btn {
+.admin-form .primary-btn {
     width: auto;
     white-space: nowrap;
 }
+
+.admin-empty {
+    color: var(--text-muted);
+}
+
+/* =========================
+   Form Actions
+   ========================= */
 
 .form-actions {
     display: flex;
@@ -501,48 +509,4 @@ body {
     width: 100%;
 
     text-align: center;
-}
-
-/* =========================
-   Policy Keyword Management
-   ========================= */
-
-.policy-keyword-list {
-    margin-top: 25px;
-}
-
-.policy-keyword-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 16px 20px;
-    margin-bottom: 12px;
-
-    background: white;
-
-    border: 1px solid var(--border-colour);
-    border-radius: var(--border-radius);
-
-    box-shadow: var(--card-shadow);
-}
-
-.policy-keyword-text {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #333;
-}
-
-.policy-keyword-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.policy-keyword-actions form {
-    margin: 0;
-}
-
-.policy-keyword-empty {
-    color: var(--text-muted);
 }

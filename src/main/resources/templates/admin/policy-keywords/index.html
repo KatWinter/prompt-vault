@@ -31,22 +31,22 @@
 
         </div>
 
-        <div class="policy-keyword-list">
+        <div class="admin-list">
 
-            <p class="policy-keyword-empty"
+            <p class="admin-empty"
                th:if="${#lists.isEmpty(keywords)}">
                 No policy keywords have been configured.
             </p>
 
-            <div class="policy-keyword-row"
+            <div class="admin-row"
                  th:each="keyword : ${keywords}">
 
-                <div class="policy-keyword-text"
+                <div class="admin-name"
                      th:text="${keyword.text}">
                     Keyword
                 </div>
 
-                <div class="policy-keyword-actions">
+                <div class="admin-actions">
 
                     <a class="secondary-btn"
                        th:href="@{/admin/policy-keywords/{id}/edit(id=${keyword.id})}">

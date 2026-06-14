@@ -24,7 +24,7 @@
 
         <div class="card">
 
-            <form class="category-form"
+            <form class="admin-form"
                   th:action="@{/admin/categories}"
                   method="post"
                   th:object="${newCategory}">
@@ -58,16 +58,16 @@
 
         </div>
 
-        <div class="category-list">
+        <div class="admin-list">
 
-            <div class="category-row"
+            <div class="admin-row"
                  th:each="category : ${categories}">
 
-                <div class="category-name"
+                <div class="admin-name"
                      th:text="${category.name}">
                 </div>
 
-                <div class="category-actions">
+                <div class="admin-actions">
 
                     <a class="secondary-btn"
                        th:href="@{/admin/categories/{id}/edit(id=${category.id})}">
