@@ -603,3 +603,18 @@ body {
 .prompt-actions .danger-btn {
     padding: 12px;
 }
+
+.prompt-flags {
+    margin-bottom: 15px;
+
+    padding: 8px 12px;
+
+    background: #fef3c7;
+
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+
+    color: #92400e;
+
+    font-size: .9rem;
+}

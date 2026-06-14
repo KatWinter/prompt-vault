@@ -5,6 +5,7 @@ import me.winterbelle.prompvault.models.data.PromptCategory;
 import me.winterbelle.prompvault.models.data.PromptHistoryItem;
 import me.winterbelle.prompvault.models.data.PromptVaultUser;
 import me.winterbelle.prompvault.models.dtos.PromptDto;
+import me.winterbelle.prompvault.services.flaggedprompt.FlaggedPromptService;
 import me.winterbelle.prompvault.services.promptcategories.PromptCategoryService;
 import me.winterbelle.prompvault.services.prompts.PromptService;
 import me.winterbelle.prompvault.services.user.PromptVaultUserService;
@@ -24,16 +25,19 @@ public class PromptController {
     private final PromptService promptService;
     private final PromptCategoryService promptCategoryService;
     private final PromptVaultUserService promptVaultUserService;
+    private final FlaggedPromptService flaggedPromptService;
     private final InputSanitizer inputSanitizer;
 
     public PromptController(
             PromptService promptService,
             PromptCategoryService promptCategoryService,
             PromptVaultUserService promptVaultUserService,
+            FlaggedPromptService flaggedPromptService,
             InputSanitizer inputSanitizer) {
         this.promptService = promptService;
         this.promptCategoryService = promptCategoryService;
         this.promptVaultUserService = promptVaultUserService;
+        this.flaggedPromptService = flaggedPromptService;
         this.inputSanitizer = inputSanitizer;
     }
 
@@ -44,7 +48,8 @@ public class PromptController {
 
         model.addAttribute(
                 "prompts",
-                promptService.getPromptsForUser(user.getUserId()));
+                promptService.getPromptListItemsForUser(
+                        user.getUserId()));
 
         return "prompts/list";
     }
@@ -83,8 +88,8 @@ public class PromptController {
         prompt.setVisibility(promptDto.getVisibility());
         prompt.setAccount(account);
 
-        promptService.createPrompt(prompt);
-        promptService.createPrompt(prompt);
+        prompt = promptService.createPrompt(prompt);
+        flaggedPromptService.rescanPrompt(prompt);
 
         redirectAttributes.addFlashAttribute(
                 "message",
@@ -147,7 +152,8 @@ public class PromptController {
         prompt.setCategory(category);
         prompt.setVisibility(dto.getVisibility());
 
-        promptService.updatePrompt(prompt);
+        prompt = promptService.updatePrompt(prompt);
+        flaggedPromptService.rescanPrompt(prompt);
 
         redirectAttributes.addFlashAttribute(
                 "message",

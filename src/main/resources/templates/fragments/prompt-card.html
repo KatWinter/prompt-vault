@@ -20,16 +20,25 @@
 
     <div class="prompt-meta">
 
-        <span th:text="${prompt.category != null ? prompt.category.name : 'No Category'}">
-            Category
-        </span>
+    <span th:text="${prompt.categoryName}">
+        Category
+    </span>
 
     </div>
 
     <p class="prompt-text"
        th:text="${prompt.promptText}">
-        Prompt Text
     </p>
+
+    <div class="prompt-flags"
+         th:if="${prompt.flaggedKeywords != null and !prompt.flaggedKeywords.isBlank()}">
+
+        <strong>Flagged:</strong>
+
+        <span th:text="${prompt.flaggedKeywords}">
+    </span>
+
+    </div>
 
     <div class="prompt-actions">
 
