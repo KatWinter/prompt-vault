@@ -20,5 +20,5 @@ public interface PromptService {
 
     void deletePrompt(Long promptId);
 
-    PromptHistoryItem sendPrompt(Long promptId);
+    PromptHistoryItem sendPrompt(Long promptId, Long currentUserId);
 }

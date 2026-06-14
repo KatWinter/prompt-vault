@@ -43,6 +43,10 @@
                            required
                            type="text"/>
 
+                    <div class="validation-message error"
+                         th:errors="*{title}"
+                         th:if="${#fields.hasErrors('title')}">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -55,6 +59,11 @@
                               required
                               rows="10"
                               th:field="*{promptText}"></textarea>
+
+                    <div class="validation-message error"
+                         th:errors="*{promptText}"
+                         th:if="${#fields.hasErrors('promptText')}">
+                    </div>
 
                 </div>
 

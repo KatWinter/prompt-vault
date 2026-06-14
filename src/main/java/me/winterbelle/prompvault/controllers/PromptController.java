@@ -1,5 +1,6 @@
 package me.winterbelle.prompvault.controllers;
 
+import jakarta.validation.Valid;
 import me.winterbelle.prompvault.models.data.Prompt;
 import me.winterbelle.prompvault.models.data.PromptCategory;
 import me.winterbelle.prompvault.models.data.PromptHistoryItem;
@@ -15,6 +16,7 @@ import me.winterbelle.prompvault.utils.helpers.security.InputSanitizer;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -88,10 +90,45 @@ public class PromptController {
 
     @PostMapping("/create")
     public String createPrompt(
-            @ModelAttribute("prompt") PromptDto promptDto,
+            @Valid @ModelAttribute("prompt") PromptDto promptDto,
+            BindingResult bindingResult,
             @AuthenticationPrincipal UserDetailsObject user,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("categories",
+                    promptCategoryService.findAll());
+
+            model.addAttribute("visibilities",
+                    Visibility.values());
+
+            model.addAttribute("pageTitle",
+                    "Create Prompt");
+
+            model.addAttribute("buttonText",
+                    "Create Prompt");
+
+            model.addAttribute("formAction",
+                    "/prompts/create");
+
+            return "prompts/create";
+        }
+
+
+        String title =
+                inputSanitizer.sanitizePlainText(promptDto.getTitle());
+        String promptText =
+                inputSanitizer.sanitizePlainText(promptDto.getPromptText());
+        if (title.isBlank() || promptText.isBlank()) {
+
+            bindingResult.reject(
+                    "prompt.invalid",
+                    "Title and prompt text cannot be empty"
+            );
+            return "prompts/create";
+        }
         PromptVaultUser account =
                 promptVaultUserService.findUser(user.getUserId())
                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -100,8 +137,8 @@ public class PromptController {
                 promptCategoryService.findById(promptDto.getCategoryId());
 
         Prompt prompt = new Prompt();
-        prompt.setTitle(inputSanitizer.sanitizePlainText(promptDto.getTitle()));
-        prompt.setPromptText(inputSanitizer.sanitizePlainText(promptDto.getPromptText()));
+        prompt.setTitle(title);
+        prompt.setPromptText(promptText);
         prompt.setCategory(category);
         prompt.setVisibility(promptDto.getVisibility());
         prompt.setAccount(account);
@@ -148,9 +185,45 @@ public class PromptController {
     @PostMapping("/edit/{id}")
     public String updatePrompt(
             @PathVariable Long id,
-            @ModelAttribute("prompt") PromptDto dto,
+            @Valid @ModelAttribute("prompt") PromptDto dto,
+            BindingResult bindingResult,
             @AuthenticationPrincipal UserDetailsObject user,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("categories",
+                    promptCategoryService.findAll());
+
+            model.addAttribute("visibilities",
+                    Visibility.values());
+
+            model.addAttribute("pageTitle",
+                    "Edit Prompt");
+
+            model.addAttribute("buttonText",
+                    "Save Changes");
+
+            model.addAttribute("formAction",
+                    "/prompts/edit/" + id);
+
+            return "prompts/create";
+        }
+
+        String title =
+                inputSanitizer.sanitizePlainText(dto.getTitle());
+        String promptText =
+                inputSanitizer.sanitizePlainText(dto.getPromptText());
+
+        if (title.isBlank() || promptText.isBlank()) {
+
+            bindingResult.reject(
+                    "prompt.invalid",
+                    "Title and prompt text cannot be empty"
+            );
+            return "prompts/create";
+        }
 
         Prompt prompt = promptService.getPrompt(id);
 
@@ -205,14 +278,20 @@ public class PromptController {
     public String sendPrompt(
             @PathVariable Long id,
             @RequestParam(defaultValue = "mine") String returnTo,
-            RedirectAttributes redirectAttributes) {
+            @AuthenticationPrincipal UserDetailsObject user,
+            RedirectAttributes redirectAttributes
+    ) {
 
         PromptHistoryItem result =
-                promptService.sendPrompt(id);
+                promptService.sendPrompt(
+                        id,
+                        user.getUserId()
+                );
 
         redirectAttributes.addFlashAttribute(
                 "message",
-                result.getResponseText());
+                result.getResponseText()
+        );
 
         if ("shared".equals(returnTo)) {
             return "redirect:/prompts/shared";

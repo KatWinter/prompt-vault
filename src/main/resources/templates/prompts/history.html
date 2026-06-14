@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Prompt History</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}"/>
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}">
+    </div>
+
+    <div class="main-content">
+
+        <div class="page-header">
+
+            <h1>Prompt History</h1>
+
+        </div>
+
+        <p class="admin-empty"
+           th:if="${#lists.isEmpty(historyItems)}">
+
+            No prompt history yet.
+
+        </p>
+        <div class="history-container">
+            <div class="history-list"
+                 th:if="${!#lists.isEmpty(historyItems)}">
+
+                <div class="history-card"
+                     th:each="item : ${historyItems}">
+
+                    <div class="history-header">
+
+                    <span class="history-date"
+                          th:text="${#temporals.format(item.createdAt, 'dd MMM yyyy HH:mm')}">
+                    </span>
+
+                    </div>
+
+                    <div class="history-section">
+
+                        <strong>Prompt</strong>
+
+                        <p th:text="${item.promptText}">
+                        </p>
+
+                    </div>
+
+                    <div class="history-section">
+
+                        <strong>Response</strong>
+
+                        <p th:text="${item.responseText}">
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>
