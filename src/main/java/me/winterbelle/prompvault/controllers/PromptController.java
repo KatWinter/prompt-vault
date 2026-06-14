@@ -51,6 +51,24 @@ public class PromptController {
                 promptService.getPromptListItemsForUser(
                         user.getUserId()));
 
+        model.addAttribute(
+                "isSharedView",
+                false);
+
+        return "prompts/list";
+    }
+
+    @GetMapping("/shared")
+    public String listSharedPrompts(Model model) {
+
+        model.addAttribute(
+                "prompts",
+                promptService.getSharedPrompts());
+
+        model.addAttribute(
+                "isSharedView",
+                true);
+
         return "prompts/list";
     }
 
@@ -186,6 +204,7 @@ public class PromptController {
     @PostMapping("/send/{id}")
     public String sendPrompt(
             @PathVariable Long id,
+            @RequestParam(defaultValue = "mine") String returnTo,
             RedirectAttributes redirectAttributes) {
 
         PromptHistoryItem result =
@@ -194,6 +213,10 @@ public class PromptController {
         redirectAttributes.addFlashAttribute(
                 "message",
                 result.getResponseText());
+
+        if ("shared".equals(returnTo)) {
+            return "redirect:/prompts/shared";
+        }
 
         return "redirect:/prompts";
     }

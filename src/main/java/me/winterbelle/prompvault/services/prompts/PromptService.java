@@ -10,6 +10,8 @@ public interface PromptService {
 
     List<PromptListItemDto> getPromptListItemsForUser(Long userId);
 
+    List<PromptListItemDto> getSharedPrompts();
+
     Prompt getPrompt(Long promptId);
 
     Prompt createPrompt(Prompt prompt);

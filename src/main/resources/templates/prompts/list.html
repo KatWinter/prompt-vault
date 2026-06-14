@@ -18,7 +18,9 @@
     <div class="main-content">
 
         <div class="page-header">
-            <h1>My Prompts</h1>
+            <h1 th:text="${isSharedView ? 'Shared Prompts' : 'My Prompts'}">
+                My Prompts
+            </h1>
 
         </div>
 
@@ -36,7 +38,7 @@
              th:if="${!#lists.isEmpty(prompts)}">
 
             <div th:each="prompt : ${prompts}">
-                <div th:replace="~{fragments/prompt-card :: promptCard(${prompt})}">
+                <div th:replace="~{fragments/prompt-card :: promptCard(${prompt}, ${isSharedView})}">
                 </div>
             </div>
 

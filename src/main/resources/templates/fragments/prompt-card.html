@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:fragment="promptCard(prompt)"
+<div th:fragment="promptCard(prompt, isSharedView)"
      class="prompt-card">
 
     <div class="prompt-card-header">
@@ -45,6 +45,10 @@
         <form method="post"
               th:action="@{/prompts/send/{id}(id=${prompt.id})}">
 
+            <input name="returnTo"
+                   th:value="${isSharedView == true ? 'shared' : 'mine'}"
+                   type="hidden"/>
+
             <button class="primary-btn"
                     type="submit">
                 Send
@@ -52,24 +56,27 @@
 
         </form>
 
-        <a class="secondary-btn"
-           th:href="@{/prompts/edit/{id}(id=${prompt.id})}">
-            Edit
-        </a>
+        <th:block th:if="${!isSharedView}">
 
-        <form method="post"
-              onsubmit="return confirm('Delete this prompt?');"
-              th:action="@{/prompts/delete/{id}(id=${prompt.id})}">
+            <a class="secondary-btn"
+               th:href="@{/prompts/edit/{id}(id=${prompt.id})}">
+                Edit
+            </a>
 
-            <button class="danger-btn"
-                    type="submit">
-                Delete
-            </button>
+            <form method="post"
+                  onsubmit="return confirm('Delete this prompt?');"
+                  th:action="@{/prompts/delete/{id}(id=${prompt.id})}">
 
-        </form>
+                <button class="danger-btn"
+                        type="submit">
+                    Delete
+                </button>
+
+            </form>
+
+        </th:block>
 
     </div>
-
 </div>
 
 </body>

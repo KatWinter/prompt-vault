@@ -7,6 +7,7 @@ import me.winterbelle.prompvault.models.dtos.PromptListItemDto;
 import me.winterbelle.prompvault.repositories.PromptHistoryRepository;
 import me.winterbelle.prompvault.repositories.PromptRepository;
 import me.winterbelle.prompvault.services.flaggedprompt.FlaggedPromptService;
+import me.winterbelle.prompvault.utils.enums.Visibility;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +73,26 @@ public class PromptServiceImpl implements PromptService {
     public List<PromptListItemDto> getPromptListItemsForUser(Long userId) {
 
         return promptRepository.findByAccountId(userId)
+                .stream()
+                .map(prompt -> new PromptListItemDto(
+                        prompt.getId(),
+                        prompt.getTitle(),
+                        prompt.getPromptText(),
+                        prompt.getCategory() != null
+                                ? prompt.getCategory().getName()
+                                : "No Category",
+                        prompt.getVisibility(),
+                        flaggedPromptService.getKeywordTextForPrompt(
+                                prompt.getId())
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<PromptListItemDto> getSharedPrompts() {
+
+        return promptRepository.findByVisibility(
+                        Visibility.shared)
                 .stream()
                 .map(prompt -> new PromptListItemDto(
                         prompt.getId(),
