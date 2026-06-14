@@ -510,3 +510,96 @@ body {
 
     text-align: center;
 }
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.prompt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.prompt-card {
+    background: white;
+
+    border: 1px solid var(--border-colour);
+    border-radius: var(--border-radius);
+
+    box-shadow: var(--card-shadow);
+
+    padding: 20px;
+}
+
+.prompt-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+
+    margin-bottom: 10px;
+}
+
+.prompt-card-header h3 {
+    margin: 0;
+    color: var(--primary-dark);
+}
+
+.prompt-visibility {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+
+    padding: 4px 10px;
+
+    border-radius: 999px;
+
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.prompt-meta {
+    margin-bottom: 15px;
+
+    color: var(--text-muted);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.prompt-text {
+    white-space: pre-wrap;
+    line-height: 1.5;
+
+    margin-bottom: 20px;
+}
+
+.prompt-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.prompt-actions form {
+    flex: 1;
+    margin: 0;
+}
+
+.prompt-actions .primary-btn,
+.prompt-actions .secondary-btn,
+.prompt-actions .danger-btn {
+    width: 100%;
+    text-align: center;
+}
+
+.prompt-actions .secondary-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prompt-actions .danger-btn {
+    padding: 12px;
+}

@@ -11,7 +11,6 @@ import me.winterbelle.prompvault.services.user.PromptVaultUserService;
 import me.winterbelle.prompvault.utils.enums.Visibility;
 import me.winterbelle.prompvault.utils.helpers.auth.UserDetailsObject;
 import me.winterbelle.prompvault.utils.helpers.security.InputSanitizer;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,11 +39,8 @@ public class PromptController {
 
     @GetMapping
     public String listPrompts(
-            Authentication authentication,
+            @AuthenticationPrincipal UserDetailsObject user,
             Model model) {
-
-        UserDetailsObject user =
-                (UserDetailsObject) authentication.getPrincipal();
 
         model.addAttribute(
                 "prompts",
@@ -59,6 +55,10 @@ public class PromptController {
         model.addAttribute("prompt", new PromptDto());
         model.addAttribute("categories", promptCategoryService.findAll());
         model.addAttribute("visibilities", Visibility.values());
+
+        model.addAttribute("formAction", "/prompts/create");
+        model.addAttribute("pageTitle", "Create Prompt");
+        model.addAttribute("buttonText", "Create Prompt");
 
         return "prompts/create";
     }
@@ -89,6 +89,90 @@ public class PromptController {
         redirectAttributes.addFlashAttribute(
                 "message",
                 "Prompt created successfully");
+
+        return "redirect:/prompts";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditPrompt(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsObject user,
+            Model model) {
+
+        Prompt prompt = promptService.getPrompt(id);
+
+        if (!prompt.getAccount().getId().equals(user.getUserId())) {
+            return "redirect:/prompts";
+        }
+
+        PromptDto dto = new PromptDto();
+        dto.setTitle(prompt.getTitle());
+        dto.setPromptText(prompt.getPromptText());
+        dto.setCategoryId(prompt.getCategory().getId());
+        dto.setVisibility(prompt.getVisibility());
+
+        model.addAttribute("prompt", dto);
+        model.addAttribute("categories", promptCategoryService.findAll());
+        model.addAttribute("visibilities", Visibility.values());
+
+        model.addAttribute("formAction", "/prompts/edit/" + id);
+        model.addAttribute("pageTitle", "Edit Prompt");
+        model.addAttribute("buttonText", "Save Changes");
+
+        return "prompts/create";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updatePrompt(
+            @PathVariable Long id,
+            @ModelAttribute("prompt") PromptDto dto,
+            @AuthenticationPrincipal UserDetailsObject user,
+            RedirectAttributes redirectAttributes) {
+
+        Prompt prompt = promptService.getPrompt(id);
+
+        if (!prompt.getAccount().getId().equals(user.getUserId())) {
+            return "redirect:/prompts";
+        }
+
+        PromptCategory category =
+                promptCategoryService.findById(dto.getCategoryId());
+
+        prompt.setTitle(
+                inputSanitizer.sanitizePlainText(dto.getTitle()));
+
+        prompt.setPromptText(
+                inputSanitizer.sanitizePlainText(dto.getPromptText()));
+
+        prompt.setCategory(category);
+        prompt.setVisibility(dto.getVisibility());
+
+        promptService.updatePrompt(prompt);
+
+        redirectAttributes.addFlashAttribute(
+                "message",
+                "Prompt updated successfully");
+
+        return "redirect:/prompts";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deletePrompt(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsObject user,
+            RedirectAttributes redirectAttributes) {
+
+        Prompt prompt = promptService.getPrompt(id);
+
+        if (!prompt.getAccount().getId().equals(user.getUserId())) {
+            return "redirect:/prompts";
+        }
+
+        promptService.deletePrompt(id);
+
+        redirectAttributes.addFlashAttribute(
+                "message",
+                "Prompt deleted successfully");
 
         return "redirect:/prompts";
     }

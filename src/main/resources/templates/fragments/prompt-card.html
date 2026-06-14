@@ -1,28 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <div th:fragment="promptCard(prompt)"
      class="prompt-card">
 
-    <h3 th:text="${prompt.title}">Title</h3>
+    <div class="prompt-card-header">
 
-    <p th:text="${prompt.category != null ? prompt.category.name : 'No Category'}">
-        Category
-    </p>
+        <h3 th:text="${prompt.title}">
+            Prompt Title
+        </h3>
 
-    <p th:text="${prompt.promptText}">
+        <span class="prompt-visibility"
+              th:text="${prompt.visibility}">
+            PRIVATE
+        </span>
+
+    </div>
+
+    <div class="prompt-meta">
+
+        <span th:text="${prompt.category != null ? prompt.category.name : 'No Category'}">
+            Category
+        </span>
+
+    </div>
+
+    <p class="prompt-text"
+       th:text="${prompt.promptText}">
         Prompt Text
     </p>
 
-    <form th:action="@{/prompts/send/{id}(id=${prompt.id})}"
-          method="post">
+    <div class="prompt-actions">
 
-        <button type="submit">
-            Send Prompt
-        </button>
+        <form method="post"
+              th:action="@{/prompts/send/{id}(id=${prompt.id})}">
 
-    </form>
+            <button class="primary-btn"
+                    type="submit">
+                Send
+            </button>
+
+        </form>
+
+        <a class="secondary-btn"
+           th:href="@{/prompts/edit/{id}(id=${prompt.id})}">
+            Edit
+        </a>
+
+        <form method="post"
+              onsubmit="return confirm('Delete this prompt?');"
+              th:action="@{/prompts/delete/{id}(id=${prompt.id})}">
+
+            <button class="danger-btn"
+                    type="submit">
+                Delete
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
