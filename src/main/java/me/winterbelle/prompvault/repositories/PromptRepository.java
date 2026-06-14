@@ -8,4 +8,6 @@ import java.util.List;
 public interface PromptRepository extends JpaRepository<Prompt, Long> {
 
     List<Prompt> findByAccountId(Long accountId);
+
+    boolean existsByCategoryId(Long categoryId);
 }

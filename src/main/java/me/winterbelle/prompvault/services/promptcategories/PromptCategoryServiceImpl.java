@@ -3,6 +3,7 @@ package me.winterbelle.prompvault.services.promptcategories;
 import me.winterbelle.prompvault.models.data.PromptCategory;
 import me.winterbelle.prompvault.models.dtos.PromptCategoryDto;
 import me.winterbelle.prompvault.repositories.PromptCategoryRepository;
+import me.winterbelle.prompvault.repositories.PromptRepository;
 import me.winterbelle.prompvault.utils.helpers.security.InputSanitizer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +13,28 @@ import java.util.List;
 @Service
 public class PromptCategoryServiceImpl implements PromptCategoryService {
 
-    private final PromptCategoryRepository repository;
+    private final PromptCategoryRepository promptCategoryRepository;
+    private final PromptRepository promptRepository;
     private final InputSanitizer sanitizer;
 
     public PromptCategoryServiceImpl(
-            PromptCategoryRepository repository,
+            PromptCategoryRepository promptCategoryRepository,
+            PromptRepository promptRepository,
             InputSanitizer sanitizer) {
 
-        this.repository = repository;
+        this.promptCategoryRepository = promptCategoryRepository;
+        this.promptRepository = promptRepository;
         this.sanitizer = sanitizer;
     }
 
     @Override
     public List<PromptCategory> findAll() {
-        return repository.findAll();
+        return promptCategoryRepository.findAll();
     }
 
     @Override
     public PromptCategory findById(Long id) {
-        return repository.findById(id)
+        return promptCategoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
     }
 
@@ -43,14 +47,14 @@ public class PromptCategoryServiceImpl implements PromptCategoryService {
             throw new IllegalArgumentException("Category name is required");
         }
 
-        if (repository.existsByNameIgnoreCase(name)) {
+        if (promptCategoryRepository.existsByNameIgnoreCase(name)) {
             throw new IllegalArgumentException("Category already exists");
         }
 
         PromptCategory category = new PromptCategory();
         category.setName(name);
 
-        repository.save(category);
+        promptCategoryRepository.save(category);
     }
 
     @Override
@@ -64,17 +68,22 @@ public class PromptCategoryServiceImpl implements PromptCategoryService {
             throw new IllegalArgumentException("Category name is required");
         }
 
-        if (repository.existsByNameIgnoreCaseAndIdNot(name, id)) {
+        if (promptCategoryRepository.existsByNameIgnoreCaseAndIdNot(name, id)) {
             throw new IllegalArgumentException("Category already exists");
         }
 
         category.setName(name);
-        repository.save(category);
+        promptCategoryRepository.save(category);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        repository.deleteById(id);
+        if (promptRepository.existsByCategoryId(id)) {
+            throw new IllegalStateException(
+                    "Cannot delete category because it is assigned to one or more prompts"
+            );
+        }
+        promptCategoryRepository.deleteById(id);
     }
 }
