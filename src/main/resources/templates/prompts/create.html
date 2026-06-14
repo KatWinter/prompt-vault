@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Prompt</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}"/>
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1>Create Prompt</h1>
+
+        <div class="card">
+
+            <form method="post"
+                  th:action="@{/prompts/create}"
+                  th:object="${prompt}">
+
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input id="title"
+                           placeholder="Enter prompt title"
+                           required
+                           th:field="*{title}"
+                           type="text"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="promptText">Prompt Text</label>
+                    <textarea id="promptText"
+                              placeholder="Write your prompt here..."
+                              required
+                              rows="8"
+                              th:field="*{promptText}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoryId">Category</label>
+                    <select id="categoryId"
+                            required
+                            th:field="*{categoryId}">
+                        <option value="">Select a category</option>
+
+                        <option th:each="category : ${categories}"
+                                th:text="${category.name}"
+                                th:value="${category.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="visibility">Visibility</label>
+                    <select id="visibility"
+                            required
+                            th:field="*{visibility}">
+                        <option th:each="visibility : ${visibilities}"
+                                th:text="${visibility}"
+                                th:value="${visibility}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button class="primary-btn" type="submit">
+                        Create Prompt
+                    </button>
+
+                    <a class="secondary-btn" th:href="@{/prompts}">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
