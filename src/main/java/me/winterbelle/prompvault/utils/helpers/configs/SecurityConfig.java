@@ -30,11 +30,11 @@ public class SecurityConfig {
                     httpForm.loginProcessingUrl("/req/login");
                     httpForm.defaultSuccessUrl("/home", true);
                 })
-//                .exceptionHandling(exception -> {
-//                    exception.accessDeniedHandler((request, response, accessDeniedException) -> {
-//                        response.sendRedirect("/home");
-//                    });
-//                })
+                .exceptionHandling(exception -> {
+                    exception.accessDeniedHandler((request, response, accessDeniedException) -> {
+                        response.sendRedirect("/home");
+                    });
+                })
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/req/**", "/css/**", "/js/**").permitAll();
                     registry.requestMatchers("/admin/**").hasRole("ADMIN");

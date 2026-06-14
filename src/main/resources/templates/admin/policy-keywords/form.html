@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title th:text="${keywordId == null ? 'Add Policy Keyword' : 'Edit Policy Keyword'}">
+        Policy Keyword
+    </title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}"/>
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1 th:text="${keywordId == null ? 'Add Policy Keyword' : 'Edit Policy Keyword'}">
+            Policy Keyword
+        </h1>
+
+        <div class="card">
+
+            <form method="post"
+                  th:action="${keywordId == null}
+                    ? @{/admin/policy-keywords/add}
+                    : @{/admin/policy-keywords/{id}/edit(id=${keywordId})}"
+                  th:object="${keyword}">
+
+                <input th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"
+                       type="hidden"/>
+
+                <div class="form-group">
+
+                    <label for="text">Keyword</label>
+
+                    <input id="text"
+                           th:field="*{text}"
+                           type="text"/>
+
+                    <div class="validation-message error"
+                         th:errors="*{text}"
+                         th:if="${#fields.hasErrors('text')}">
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button class="primary-btn"
+                            th:text="${keywordId == null ? 'Create Keyword' : 'Save Changes'}"
+                            type="submit">
+                        Save
+                    </button>
+
+                    <a class="secondary-btn"
+                       th:href="@{/admin/policy-keywords}">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

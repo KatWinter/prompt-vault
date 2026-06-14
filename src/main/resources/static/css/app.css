@@ -502,3 +502,47 @@ body {
 
     text-align: center;
 }
+
+/* =========================
+   Policy Keyword Management
+   ========================= */
+
+.policy-keyword-list {
+    margin-top: 25px;
+}
+
+.policy-keyword-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px 20px;
+    margin-bottom: 12px;
+
+    background: white;
+
+    border: 1px solid var(--border-colour);
+    border-radius: var(--border-radius);
+
+    box-shadow: var(--card-shadow);
+}
+
+.policy-keyword-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.policy-keyword-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.policy-keyword-actions form {
+    margin: 0;
+}
+
+.policy-keyword-empty {
+    color: var(--text-muted);
+}
