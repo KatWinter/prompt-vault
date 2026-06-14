@@ -1,7 +1,7 @@
 package me.winterbelle.prompvault.utils.helpers.auth;
 
 import me.winterbelle.prompvault.models.data.PromptVaultUser;
-import me.winterbelle.prompvault.services.PromptVaultUserService;
+import me.winterbelle.prompvault.services.user.PromptVaultUserService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,7 +2,7 @@ package me.winterbelle.prompvault.controllers;
 
 import me.winterbelle.prompvault.models.data.PromptVaultUser;
 import me.winterbelle.prompvault.models.requests.RegisterUserRequest;
-import me.winterbelle.prompvault.services.PromptVaultUserService;
+import me.winterbelle.prompvault.services.user.PromptVaultUserService;
 import me.winterbelle.prompvault.utils.enums.Role;
 import me.winterbelle.prompvault.utils.enums.Status;
 import org.springframework.security.crypto.password.PasswordEncoder;

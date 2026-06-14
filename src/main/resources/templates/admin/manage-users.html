@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Manage Users</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}"/>
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="content">
+
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <div class="main-content">
+
+        <h1>Manage Users</h1>
+
+        <div class="card">
+
+            <p class="admin-empty"
+               th:if="${#lists.isEmpty(users)}">
+                No users found.
+            </p>
+
+            <div class="admin-list"
+                 th:if="${!#lists.isEmpty(users)}">
+
+                <div class="admin-row"
+                     th:each="user : ${users}">
+
+                    <div>
+
+                        <div class="admin-name"
+                             th:text="${user.username}">
+                            username
+                        </div>
+
+                        <p>
+                            <strong>Name:</strong>
+                            <span th:text="${user.firstName}">First</span>
+                            <span th:text="${user.lastName}">Last</span>
+                        </p>
+
+                        <p>
+                            <strong>Email:</strong>
+                            <span th:text="${user.email}">email@example.com</span>
+                        </p>
+
+                        <p>
+                            <strong>Role:</strong>
+                            <span th:text="${user.role}">ROLE</span>
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            <span th:text="${user.status}">STATUS</span>
+                        </p>
+
+                    </div>
+
+                    <div class="admin-actions">
+
+                        <form method="post"
+                              th:action="@{/admin/users/{id}/enable(id=${user.id})}"
+                              th:if="${user.status.name() == 'disabled'}">
+
+                            <input th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"
+                                   type="hidden"/>
+
+                            <button class="primary-btn"
+                                    type="submit">
+                                Enable
+                            </button>
+
+                        </form>
+
+                        <form method="post"
+                              th:action="@{/admin/users/{id}/disable(id=${user.id})}"
+                              th:if="${user.status.name() == 'enabled'}">
+
+                            <input th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"
+                                   type="hidden"/>
+
+                            <button class="danger-btn"
+                                    type="submit">
+                                Disable
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
