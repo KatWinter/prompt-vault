@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PolicyKeywordRepository extends JpaRepository<PolicyKeyword, Long> {
     boolean existsByTextIgnoreCase(String text);
+
+    boolean existsByTextIgnoreCaseAndIdNot(String text, Long id);
 }

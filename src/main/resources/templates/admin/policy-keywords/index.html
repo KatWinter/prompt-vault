@@ -20,14 +20,41 @@
 
     <div class="main-content">
 
-        <div class="page-header">
+        <h1>Manage Policy Keywords</h1>
 
-            <h1>Policy Keywords</h1>
+        <div class="card">
 
-            <a class="primary-btn"
-               th:href="@{/admin/policy-keywords/add}">
-                Add Keyword
-            </a>
+            <form class="admin-form"
+                  method="post"
+                  th:action="@{/admin/policy-keywords/add}"
+                  th:object="${keyword}">
+
+                <input th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"
+                       type="hidden"/>
+
+                <div class="form-group">
+
+                    <label for="text">Keyword</label>
+
+                    <input id="text"
+                           placeholder="Enter policy keyword"
+                           th:field="*{text}"
+                           type="text"/>
+
+                    <div class="validation-message error"
+                         th:errors="*{text}"
+                         th:if="${#fields.hasErrors('text')}">
+                    </div>
+
+                </div>
+
+                <button class="primary-btn"
+                        type="submit">
+                    Add Keyword
+                </button>
+
+            </form>
 
         </div>
 
@@ -54,7 +81,7 @@
                     </a>
 
                     <form method="post"
-                          onsubmit="return confirm('Delete this keyword?');"
+                          onsubmit="return confirm('Delete this keyword? This may unflag prompts using only this keyword.');"
                           th:action="@{/admin/policy-keywords/{id}/delete(id=${keyword.id})}">
 
                         <input th:name="${_csrf.parameterName}"

@@ -23,6 +23,7 @@ public class AdminPolicyKeywordController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("keywords", service.findAll());
+        model.addAttribute("keyword", new PolicyKeywordDto(""));
         return "admin/policy-keywords/index";
     }
 
@@ -36,13 +37,22 @@ public class AdminPolicyKeywordController {
     @PostMapping("/add")
     public String create(
             @Valid @ModelAttribute("keyword") PolicyKeywordDto dto,
-            BindingResult bindingResult) {
+            BindingResult bindingResult,
+            Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "admin/policy-keywords/form";
+            model.addAttribute("keywords", service.findAll());
+            return "admin/policy-keywords/index";
         }
 
-        service.create(dto);
+        try {
+            service.create(dto);
+        } catch (IllegalArgumentException ex) {
+            bindingResult.rejectValue("text", "duplicate", ex.getMessage());
+            model.addAttribute("keywords", service.findAll());
+            return "admin/policy-keywords/index";
+        }
+
         return "redirect:/admin/policy-keywords";
     }
 
@@ -57,16 +67,21 @@ public class AdminPolicyKeywordController {
     }
 
     @PostMapping("/{id}/edit")
-    public String update(
-            @PathVariable Long id,
-            @Valid @ModelAttribute("keyword") PolicyKeywordDto dto,
-            BindingResult bindingResult) {
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("keyword") PolicyKeywordDto dto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "form";
+            model.addAttribute("keywordId", id);
+            return "admin/policy-keywords/form";
         }
 
-        service.update(id, dto);
+        try {
+            service.update(id, dto);
+        } catch (IllegalArgumentException ex) {
+            bindingResult.rejectValue("text", "duplicate", ex.getMessage());
+            model.addAttribute("keywordId", id);
+            return "admin/policy-keywords/form";
+        }
+
         return "redirect:/admin/policy-keywords";
     }
 

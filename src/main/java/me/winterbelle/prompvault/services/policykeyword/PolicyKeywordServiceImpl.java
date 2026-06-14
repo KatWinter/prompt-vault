@@ -42,15 +42,30 @@ public class PolicyKeywordServiceImpl implements PolicyKeywordService {
 
     @Override
     public PolicyKeyword create(PolicyKeywordDto dto) {
+        String keywordText = sanitizeKeyword(dto.text());
+
+        if (policyKeywordRepository.existsByTextIgnoreCase(keywordText)) {
+            throw new IllegalArgumentException("Policy keyword already exists");
+        }
+
         PolicyKeyword keyword = new PolicyKeyword();
-        keyword.setText(sanitizeKeyword(dto.text()));
+        keyword.setText(keywordText);
+
         return policyKeywordRepository.save(keyword);
     }
 
     @Override
     public PolicyKeyword update(Long id, PolicyKeywordDto dto) {
         PolicyKeyword keyword = findById(id);
-        keyword.setText(sanitizeKeyword(dto.text()));
+
+        String keywordText = sanitizeKeyword(dto.text());
+
+        if (policyKeywordRepository.existsByTextIgnoreCaseAndIdNot(keywordText, id)) {
+            throw new IllegalArgumentException("Policy keyword already exists");
+        }
+
+        keyword.setText(keywordText);
+
         return policyKeywordRepository.save(keyword);
     }
 
@@ -61,7 +76,7 @@ public class PolicyKeywordServiceImpl implements PolicyKeywordService {
             throw new IllegalArgumentException("Keyword cannot be blank");
         }
 
-        return cleaned;
+        return cleaned.trim();
     }
 
     @Override
