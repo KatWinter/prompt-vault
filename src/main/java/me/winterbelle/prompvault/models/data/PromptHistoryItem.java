@@ -2,18 +2,12 @@ package me.winterbelle.prompvault.models.data;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
 
 
 @Entity
 @Table(name = "prompt_history_items")
-public class PromptHistoryItem {
+public class PromptHistoryItem extends AuditableEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     @ManyToOne
     @JoinColumn(name = "fk_account_id")
     private PromptVaultUser account;
@@ -22,18 +16,8 @@ public class PromptHistoryItem {
     private String promptText;
 
     @NotBlank
+    @Column(columnDefinition = "TEXT")
     private String responseText;
-
-    @NotNull
-    private LocalDateTime requestTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public PromptVaultUser getAccount() {
         return account;
@@ -57,13 +41,5 @@ public class PromptHistoryItem {
 
     public void setResponseText(String responseText) {
         this.responseText = responseText;
-    }
-
-    public LocalDateTime getRequestTime() {
-        return requestTime;
-    }
-
-    public void setRequestTime(LocalDateTime requestTime) {
-        this.requestTime = requestTime;
     }
 }

@@ -5,11 +5,8 @@ import me.winterbelle.prompvault.utils.enums.Visibility;
 
 @Entity
 @Table(name = "prompts")
-public class Prompt {
+public class Prompt extends AuditableEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     @ManyToOne
     @JoinColumn(name = "fk_account_id")
     private PromptVaultUser account;
@@ -21,14 +18,6 @@ public class Prompt {
 
     @Enumerated(EnumType.STRING)
     private Visibility visibility;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public PromptVaultUser getAccount() {
         return account;

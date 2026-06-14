@@ -4,19 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "prompt_categories")
-public class PromptCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class PromptCategory extends AuditableEntity{
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

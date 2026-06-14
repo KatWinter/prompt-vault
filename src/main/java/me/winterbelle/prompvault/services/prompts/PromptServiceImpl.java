@@ -63,8 +63,6 @@ public class PromptServiceImpl implements PromptService {
 
         historyItem.setPromptText(prompt.getPromptText());
 
-        historyItem.setRequestTime(LocalDateTime.now());
-
         historyItem.setResponseText(String.format("AI Service responded with 'TODO' at %s for prompt '%s'", LocalDateTime.now(), prompt.getPromptText()));
 
         return promptHistoryRepository.save(historyItem);

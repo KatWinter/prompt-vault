@@ -6,10 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "flagged_prompts")
-public class FlaggedPrompt {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class FlaggedPrompt extends AuditableEntity{
 
     @ManyToMany
     @JoinTable(name = "flagged_prompt_policy_keywords",
@@ -20,14 +17,6 @@ public class FlaggedPrompt {
     @OneToOne
     @JoinColumn(name = "fk_prompt_id")
     private Prompt prompt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public List<PolicyKeyword> getKeywords() {
         return keywords;

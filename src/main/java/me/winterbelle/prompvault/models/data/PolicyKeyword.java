@@ -4,19 +4,9 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "policy_keywords")
-public class PolicyKeyword {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class PolicyKeyword extends AuditableEntity {
+
     private String text;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getText() {
         return text;

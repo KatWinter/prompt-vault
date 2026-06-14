@@ -18,11 +18,7 @@ import java.util.List;
             @UniqueConstraint(columnNames = "email")
         }
 )
-public class PromptVaultUser {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class PromptVaultUser extends AuditableEntity{
 
     @Column(nullable = false)
     private String username;
@@ -42,14 +38,6 @@ public class PromptVaultUser {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Prompt> promptList = new ArrayList<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
