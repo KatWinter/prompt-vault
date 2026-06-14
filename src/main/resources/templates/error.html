@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>Prompt Vault - Error</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/app.css}" />
+
+</head>
+
+<body>
+
+<div class="error-page">
+
+    <div class="error-card">
+
+        <div class="error-icon">🌙</div>
+
+        <h1 class="error-title">Oh no! Something went wrong!</h1>
+
+        <div class="error-code">
+            Error <span th:text="${status}">500</span>
+        </div>
+
+        <p class="error-message" th:if="${status == 404}">
+            This page seems to have wandered off into the prompt vault.
+        </p>
+
+        <p class="error-message" th:if="${status != 404}">
+            Something unexpected happened, but don't worry — your prompts are still safe.
+        </p>
+
+        <a class="primary-btn"
+           th:href="@{/home}">
+            Take me home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
