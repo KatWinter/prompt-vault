@@ -13,10 +13,16 @@ mysql -u root -p < ./db/down.sql
 
 ## Running the app
 
-Admin user:
-Username: admin
-Password: admin
+First create & seed the database, then run:
 
-Regular user:
-Username: user
-Password: user
+```bash
+./mvnw spring-boot:run
+``` 
+
+Login with any user for testing:
+
+| Username | Password | Type  |
+|----------|----------|-------|
+| admin    | admin    | Admin |
+| user     | user     | User  |
+| user2    | user2    | User  |
