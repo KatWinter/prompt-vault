@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
     <title>Manage Prompt Categories</title>
 
     <link rel="stylesheet"
-          th:href="@{/css/app.css}" />
+          th:href="@{/css/app.css}"/>
 
 </head>
 
@@ -31,7 +31,7 @@
 
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
-                       th:value="${_csrf.token}" />
+                       th:value="${_csrf.token}"/>
 
                 <div class="form-group">
 
@@ -40,7 +40,7 @@
                     <input id="name"
                            type="text"
                            th:field="*{name}"
-                           placeholder="Enter category name" />
+                           placeholder="Enter category name"/>
 
                     <div class="validation-message error"
                          th:if="${#fields.hasErrors('name')}"
@@ -57,6 +57,12 @@
             </form>
 
         </div>
+
+        <div class="alert error"
+             th:if="${errorMessage}"
+             th:text="${errorMessage}">
+        </div>
+
 
         <div class="admin-list">
 
@@ -79,7 +85,7 @@
 
                         <input type="hidden"
                                th:name="${_csrf.parameterName}"
-                               th:value="${_csrf.token}" />
+                               th:value="${_csrf.token}"/>
 
                         <button type="submit"
                                 class="danger-btn">

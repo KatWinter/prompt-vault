@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/categories")
@@ -67,8 +68,17 @@ public class AdminPromptCategoryController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirectAttributes
+    ) {
+        try {
+            service.delete(id);
+        } catch (IllegalStateException ignored) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Cannot Delete in use category"
+            );
+        }
         return "redirect:/admin/categories";
     }
 }
